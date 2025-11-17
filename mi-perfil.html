@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Perfil - FIFAverse</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar" class="sidebar">
+    <nav class="sidebar-menu">
+      <button id="closeSidebar" class="close-btn">✕</button>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="publicaciones.html" data-title="Publicaciones">Publicaciones</a></li>
+        <li><a href="noticias.html" data-title="Noticias">Noticias Oficiales</a></li>
+        <li><a href="jugadas.html" data-title="Jugadas & Más">Jugadas</a></li>
+        <li><a href="comunidades.html" data-title="Comunidades">Comunidades</a></li>
+        <li><a href="historia.html" data-title="Historia">Historia de la FIFA</a></li>
+      </ul>
+
+      <div class="theme-toggle">
+        <button id="themeToggleBtn" class="theme-btn">
+          ☀️ <span id="themeLabel">Modo claro</span>
+        </button>
+      </div>
+
+      <div class="font-size-toggle">
+        <label for="fontSizeRange">Tamaño del texto</label>
+        <div class="font-size-row">
+          <span class="font-size-icon">A-</span>
+          <input type="range" id="fontSizeRange" min="14" max="20" step="1" value="16"
+            aria-label="Ajustar tamaño de texto" />
+          <span class="font-size-icon">A+</span>
+        </div>
+      </div>
+      <div class="lol" id="lol">
+        <p>.</p>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <a href="index.html" class="logo">
+      <img src="imagenes/logo.png" alt="Logo del sitio">
+      <div class="brand">FIFAverse</div>
+    </a>
+
+    <div class="search-wrap">
+      <form class="search-box" onsubmit="return false;">
+        <input type="search" placeholder="Buscar noticias..." />
+        <button title="Buscar">🔍</button>
+      </form>
+    </div>
+
+    <div class="controls">
+      <button id="profileBtn" class="profile-btn">
+        <img id="profileAvatar" src="imagenes/avatar-dark.png" alt="Avatar" />
+        <span id="profileName" class="small">Invitado</span>
+      </button>
+      <button id="hamburger" class="hamburger">☰</button>
+    </div>
+  </header>
+
+  <!-- ===== PERFIL ===== -->
+  <main class="perfil-main">
+
+    <!-- ENCABEZADO PERFIL -->
+    <section class="perfil-header">
+      <img id="perfilFoto" src="imagenes/avatar-dark.png" alt="Foto de perfil" class="perfil-foto">
+
+      <div class="perfil-info">
+        <h1 id="perfilUsername">@usuario</h1>
+        <p id="perfilDesc">Cargando...</p>
+      </div>
+
+      <div class="perfil-actions">
+        <button class="btn editar-toggle">✎ Editar perfil</button>
+        <button id="logoutBtn" class="btn logout-btn">⎋ Cerrar sesión</button>
+      </div>
+    </section>
+
+    <!-- FORMULARIO PARA EDITAR PERFIL -->
+    <section class="perfil-editar" style="display:none;">
+      <h2>Editar información del perfil</h2>
+
+      <form id="profileEditForm" class="perfil-form">
+
+        <label for="editUsername">Nombre de usuario:</label>
+        <input id="editUsername" type="text" placeholder="Tu nombre de usuario" />
+
+        <label for="editDescription">Descripción:</label>
+        <textarea id="editDescription" rows="3" placeholder="Escribe tu descripción..."></textarea>
+
+        <label for="editPhoto">Foto de perfil:</label>
+        <input id="editPhoto" type="file" accept="image/*" />
+
+        <div class="perfil-form-actions">
+          <button type="button" class="btn-cancelar" id="cancelEdit">Cancelar</button>
+          <button type="submit" class="btn-guardar">Guardar cambios</button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- ESTADÍSTICAS -->
+    <section class="perfil-stats">
+      <div class="stat-box">
+        <h3>Seguidores</h3>
+        <p>1,245</p>
+      </div>
+      <div class="stat-box">
+        <h3>Seguidos</h3>
+        <p>842</p>
+      </div>
+      <div class="stat-box">
+        <h3>Likes Totales</h3>
+        <p>9,812</p>
+      </div>
+      <div class="stat-box">
+        <h3>Comentarios</h3>
+        <p>432</p>
+      </div>
+    </section>
+
+    <!-- PUBLICACIONES DEL USUARIO -->
+    <section class="perfil-publicaciones">
+      <h2>Mis Publicaciones</h2>
+
+      <div class="grid">
+        <!-- EJEMPLO 1 -->
+        <article class="card">
+          <div class="meta">
+            <div>
+              <strong class="title">Maradona — La Mano de Dios (1986)</strong>
+              <div class="small">Jugadas • 1986 • Argentina</div>
+            </div>
+            <div class="small" style="text-align:right">Aprobado</div>
+          </div>
+
+          <img class="media" src="imagenes/maradona.jpg" alt="Maradona">
+          <p class="small">Resumen y contexto histórico.</p>
+
+          <div class="actions">
+            <div class="stat">❤️ 512</div>
+            <div class="stat">👁️ 10,234</div>
+          </div>
+        </article>
+
+        <!-- EJEMPLO 2 -->
+        <article class="card">
+          <div class="meta">
+            <div>
+              <strong class="title">Final 2018 — Resumen</strong>
+              <div class="small">Partidos • 2018 • Rusia</div>
+            </div>
+            <div class="small" style="text-align:right">Pendiente</div>
+          </div>
+
+          <img class="media" src="imagenes/rusia2018.jpg" alt="Final 2018">
+          <p class="small">Videos de las jugadas y entrevistas post partido.</p>
+
+          <div class="actions">
+            <div class="stat">❤️ 12</div>
+            <div class="stat">👁️ 523</div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footerr">
+      <p>.</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

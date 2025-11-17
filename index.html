@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIFAverse</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.js.iife.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@latest/dist/driver.css" />
+  <script src="script.js" defer></script>
+
+</head>
+
+<body>
+  <!-- Menu hamburguesa -->
+  <aside id="sidebar" class="sidebar" role="navigation" aria-label="Menú lateral">
+    <nav class="sidebar-menu">
+      <button id="closeSidebar" class="close-btn" aria-label="Cerrar menú" tabindex="1">✕</button>
+      <ul>
+        <li><a href="index.html" data-title="Inicio" tabindex="2">Inicio</a></li>
+        <li><a href="publicaciones.html" data-title="Publicaciones" tabindex="3">Publicaciones</a></li>
+        <li><a href="noticias.html" data-title="Noticias" tabindex="4">Noticias Oficiales</a></li>
+        <li><a href="jugadas.html" data-title="Jugadas & Más" tabindex="5">Jugadas</a></li>
+        <li><a href="comunidades.html" data-title="Comunidades" tabindex="6">Comunidades</a></li>
+        <li><a href="historia.html" data-title="Historia" tabindex="7">Historia de la FIFA</a></li>
+      </ul>
+
+      <div class="theme-toggle">
+        <button id="themeToggleBtn" class="theme-btn" title="Cambiar tema" aria-pressed="false" tabindex="8">
+          ☀️ <span id="themeLabel">Modo claro</span>
+        </button>
+      </div>
+
+      <div class="font-size-toggle">
+        <label for="fontSizeRange">Tamaño del texto</label>
+        <div class="font-size-row">
+          <span class="font-size-icon">A-</span>
+          <input type="range" id="fontSizeRange" min="14" max="20" step="1" value="16"
+            aria-label="Ajustar tamaño de texto" />
+          <span class="font-size-icon">A+</span>
+        </div>
+      </div>
+      <div class="lol" id="lol">
+        <p>.</p>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- header(sticky) -->
+  <header class="app-header" role="banner" aria-label="Encabezado principal">
+    <a href=index.html class="logo">
+      <img src="imagenes/logo.png" alt="Logo del sitio">
+      <div class="brand">FIFAverse</div>
+    </a>
+
+    <div class="search-wrap" role="search" aria-label="Buscar publicaciones">
+      <form id="searchForm" class="search-box" onsubmit="return false;" aria-hidden="false">
+        <label for="searchInput" class="sr-only" style="position:absolute;left:-9999px">
+          Buscar publicaciones
+        </label>
+        <input id="searchInput" type="search" placeholder="Buscar por categoría, año, país o usuario..."
+          aria-label="Buscar publicaciones" tabindex="10" />
+        <button id="btnSearch" title="Buscar" aria-label="Buscar resultados" tabindex="11">🔍</button>
+      </form>
+    </div>
+
+    <div class="controls" role="navigation" aria-label="Controles del usuario">
+      <button id="profileBtn" class="profile-btn" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu"
+        tabindex="12">
+        <img id="profileAvatar" src="imagenes/avatar-dark.png" alt="Avatar del usuario" />
+        <span id="profileName" class="small">Invitado</span>
+      </button>
+      <button id="hamburger" class="hamburger" aria-label="Abrir menú" aria-expanded="false" tabindex="13">☰</button>
+    </div>
+  </header>
+
+  <!-- pop up de login / signup -->
+  <div id="authModalBackdrop" class="modal-backdrop" style="display:none;" aria-hidden="true" role="dialog"
+    aria-labelledby="loginFormTitle">
+    <div class="modal auth-modal">
+      <!-- Formulario de Login -->
+      <div id="loginForm" class="auth-form active" aria-label="Formulario de inicio de sesión">
+        <h2 id="loginFormTitle" tabindex="33">Inicia Sesión</h2>
+        <label for="loginEmail">Correo</label>
+        <input type="email" id="loginEmail" placeholder="correo@ejemplo.com" required tabindex="34">
+
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required tabindex="35">
+
+        <button id="btnLoginSubmit" class="btn" tabindex="36">Entrar</button>
+
+        <p class="switch-auth">¿No tienes cuenta?
+          <a href="#" id="showRegister" tabindex="37">Regístrate</a>
+        </p>
+      </div>
+
+      <!-- Formulario de Registro -->
+      <div id="registerForm" class="auth-form" style="display:none;" aria-label="Formulario de registro de usuario">
+        <h2 tabindex="38">Crear Cuenta</h2>
+
+        <!-- Nombre completo -->
+        <label for="registerFullName">
+          Nombre completo
+          <span id="errorNombre" class="error-label"></span>
+        </label>
+        <input type="text" id="registerFullName" placeholder="Tu nombre completo" required>
+
+
+
+        <!-- Fecha de nacimiento -->
+        <label for="regBirthDay">
+          Fecha de nacimiento
+          <span id="errorFecha" class="error-label"></span>
+        </label>
+
+        <div class="birthdate-row">
+          <!-- Día -->
+          <select id="regBirthDay" class="birth-select">
+            <option value="">Día</option>
+          </select>
+
+          <!-- Mes -->
+          <select id="regBirthMonth" class="birth-select">
+            <option value="">Mes</option>
+          </select>
+
+          <!-- Año -->
+          <select id="regBirthYear" class="birth-select">
+            <option value="">Año</option>
+          </select>
+        </div>
+
+
+        <!-- Género  -->
+        <label for="regGender">Género</label>
+        <select id="regGender" tabindex="41">
+          <option value="">Selecciona una opción</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+        </select>
+
+        <!-- País de nacimiento -->
+        <label for="regBirthCountry">País de nacimiento</label>
+        <input type="text" id="regBirthCountry" placeholder="Ej: México" required tabindex="42">
+
+        <!-- Foto -->
+        <label for="regPhoto">Foto de perfil</label>
+        <input type="file" id="regPhoto" accept="image/*" tabindex="43">
+
+        <!-- Correo -->
+        <label for="registerEmail">
+          Correo electrónico
+          <span id="errorEmail" class="error-label"></span>
+        </label>
+        <input type="email" id="registerEmail" placeholder="correo@ejemplo.com" required tabindex="45">
+
+
+        <!-- Contraseña -->
+        <label for="registerPassword">
+          Contraseña
+          <span id="errorPass" class="error-label"></span>
+        </label>
+        <input type="password" id="registerPassword" placeholder="••••••••" required tabindex="46">
+
+        <div class="password-rules">
+          <div id="rule-length">• Mínimo 8 caracteres</div>
+          <div id="rule-upper">• Al menos 1 mayúscula</div>
+          <div id="rule-number">• Al menos 1 número</div>
+          <div id="rule-special">• Al menos 1 caracter especial</div>
+        </div>
+        <small id="registerPasswordError" class="field-error"></small>
+
+        <button id="btnRegisterSubmit" class="btn" tabindex="46">Registrarme</button>
+
+        <p class="switch-auth">¿Ya tienes cuenta?
+          <a href="#" id="showLogin" tabindex="47">Inicia sesión</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===== Contenido principal ===== -->
+  <main role="main" aria-label="Contenido principal">
+    <!-- Countdown al próximo Mundial -->
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title" tabindex="14">FIFA World Cup 2026</h1>
+      <div id="countdown" class="countdown" role="timer" aria-live="polite" tabindex="15">Cargando...</div>
+      <p style="color:var(--muted)" tabindex="16">¡Prepárate para el siguiente capítulo de la historia del fútbol!</p>
+
+      <div class="hero-actions">
+        <button id="btnTour" type="button" class="btn-tour" tabindex="16">
+          ¡Date un tour por la página!
+        </button>
+      </div>
+    </section>
+
+    <!-- Slider de Mundiales -->
+    <a href="historia.html" class="section-title" id="slider-mundiales-title" tabindex="17">Explora Mundiales</a>
+    <section class="slider" id="worldCupSlider" aria-labelledby="slider-mundiales-title" role="region">
+      <div class="slider-track" tabindex="18" aria-live="off">
+        <div class="slide" tabindex="19" role="button" aria-label="Mundial 2026"> <img src="imagenes/fifa2026.webp"
+            alt="Mundial 2026" />
+          <h3>2026</h3>
+        </div>
+        <div class="slide" tabindex="20" role="button" aria-label="Mundial 2022">
+          <img src="imagenes/fifa2022.jpg" alt="Mundial 2022" />
+          <h3>2022</h3>
+        </div>
+        <div class="slide" tabindex="21" role="button" aria-label="Mundial 2018"> <img src="imagenes/fifa2018.jpg"
+            alt="Mundial 2018" />
+          <h3>2018</h3>
+        </div>
+        <div class="slide" tabindex="22" role="button" aria-label="Mundial 2014"> <img src="imagenes/fifa2014.jpg"
+            alt="Mundial 2014" />
+          <h3>2014</h3>
+        </div>
+        <div class="slide" tabindex="23" role="button" aria-label="Mundial 2010"> <img src="imagenes/fifa2010.webp"
+            alt="Mundial 2010" />
+          <h3>2010</h3>
+        </div>
+        <div class="slide" tabindex="24" role="button" aria-label="Mundial 2006"> <img src="imagenes/fifa2006.webp"
+            alt="Mundial 2006" />
+          <h3>2006</h3>
+        </div>
+        <div class="slide" tabindex="25" role="button" aria-label="Mundial 2002"> <img src="imagenes/fifa2002.webp"
+            alt="Mundial 2002" />
+          <h3>2002</h3>
+        </div>
+        <div class="slide" tabindex="26" role="button" aria-label="Mundial 1998"> <img src="imagenes/fifa1998.webp"
+            alt="Mundial 1998" />
+          <h3>1998</h3>
+        </div>
+        <div class="slide" tabindex="27" role="button" aria-label="Mundial 1994"> <img src="imagenes/fifa1994.jpg"
+            alt="Mundial 1994" />
+          <h3>1994</h3>
+        </div>
+        <div class="slide" tabindex="28" role="button" aria-label="Mundial 1990"> <img src="imagenes/fifa1990.jpg"
+            alt="Mundial 1990" />
+          <h3>1990</h3>
+        </div>
+        <div class="slide" tabindex="29" role="button" aria-label="Mundial 1986"> <img src="imagenes/fifa1986.webp"
+            alt="Mundial 1986" />
+          <h3>1986</h3>
+        </div>
+        <div class="slide" tabindex="30" role="button" aria-label="Mundial 1982"> <img src="imagenes/fifa1982.jpg"
+            alt="Mundial 1982" />
+          <h3>1982</h3>
+        </div>
+        <div class="slide" tabindex="31" role="button" aria-label="Mundial 1978"> <img src="imagenes/fifa1978.jpg"
+            alt="Mundial 1978" />
+          <h3>1978</h3>
+        </div>
+        <div class="slide" tabindex="32" role="button" aria-label="Mundial 1974"> <img src="imagenes/fifa1974.jpg"
+            alt="Mundial 1974" />
+          <h3>1974</h3>
+        </div>
+      </div>
+      <div class="slider-controls" aria-label="Controles de navegación del slider"> <button id="prevWorldCup"
+          aria-label="Anterior Mundial" tabindex="33">⬅</button> <button id="nextWorldCup"
+          aria-label="Siguiente Mundial" tabindex="34">➡</button> </div>
+    </section>
+
+    <!-- Slider de publicaciones recientes -->
+    <a href="publicaciones.html" class="section-title" id="slider-publicaciones-title" tabindex="35">Publicaciones
+      Recientes</a>
+    <section class="slider" id="recentPostsSlider" aria-labelledby="slider-publicaciones-title" role="region">
+      <div class="slider-track" tabindex="36" aria-live="polite">
+        <!-- Publicaciones Hardcodeadas -->
+        <div class="slide post" tabindex="37" role="button" aria-label="Publicación: Gol de Maradona">
+          <img src="imagenes/maradona.jpg" alt="Gol de la mano de Dios 1986" />
+          <h4>Maradona — La Mano de Dios (1986)</h4>
+          <p>El mítico gol que marcó la historia del fútbol mundial.</p>
+        </div>
+
+        <div class="slide post" tabindex="38" role="button" aria-label="Golazo de Mbappé">
+          <img src="imagenes/gol.jpg" alt="Mbappé metiendo un gol" />
+          <h4>Golazo de Mbappé</h4>
+          <p>Mbappé iguala la final con un hat-trick histórico..</p>
+        </div>
+
+        <div class="slide post" tabindex="39" role="button" aria-label="Publicación: Alemania 2014">
+          <img src="imagenes/final.jpg" alt="Final Alemania 2014" />
+          <h4>Final Alemania 2014</h4>
+          <p>La final más intensa en el Maracaná.</p>
+        </div>
+
+        <div class="slide post" tabindex="40" role="button" aria-label="Publicación: Gol de Iniesta">
+          <img src="imagenes/iniesta.jpg" alt="Gol de Iniesta" />
+          <h4>El gol de Iniesta que hizo historia.</h4>
+          <p>Sudáfrica 2010</p>
+        </div>
+      </div>
+
+      <div class="slider-controls" aria-label="Controles del slider de publicaciones">
+        <button id="prevPost" aria-label="Publicación anterior" tabindex="41">⬅</button>
+        <button id="nextPost" aria-label="Siguiente publicación" tabindex="42">➡</button>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- Slider control con flechas -->
+  <script>
+    function scrollSlider(sliderId, direction) {
+      const slider = document.querySelector(sliderId + " .slider-track");
+      if (slider) {
+        const amount = direction === "next" ? 320 : -320;
+        slider.scrollBy({ left: amount, behavior: "smooth" });
+      }
+    }
+
+    document.getElementById("prevWorldCup").onclick = () => scrollSlider("#worldCupSlider", "prev");
+    document.getElementById("nextWorldCup").onclick = () => scrollSlider("#worldCupSlider", "next");
+    document.getElementById("prevPost").onclick = () => scrollSlider("#recentPostsSlider", "prev");
+    document.getElementById("nextPost").onclick = () => scrollSlider("#recentPostsSlider", "next");
+
+    // Navegación con teclado
+    document.addEventListener("keydown", (e) => {
+      if (document.activeElement.closest(".slider")) {
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          document.activeElement.closest(".slider").querySelector(".slider-track")
+            .scrollBy({ left: 320, behavior: "smooth" });
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          document.activeElement.closest(".slider").querySelector(".slider-track")
+            .scrollBy({ left: -320, behavior: "smooth" });
+        }
+      }
+    });
+  </script>
+
+  <footer>
+    <div class="footerr" id="footerr">
+      <p>
+        .
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>

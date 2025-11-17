@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FIFAverse - Historia de la FIFA</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <!-- Menu hamburguesa-->
+    <aside id="sidebar" class="sidebar">
+        <nav class="sidebar-menu">
+            <button id="closeSidebar" class="close-btn">✕</button>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="publicaciones.html">Publicaciones</a></li>
+                <li><a href="noticias.html">Noticias Oficiales</a></li>
+                <li><a href="jugadas.html">Jugadas</a></li>
+                <li><a href="comunidades.html">Comunidades</a></li>
+                <li><a href="historia.html">Historia de la FIFA</a></li>
+            </ul>
+            <div class="theme-toggle">
+                <button id="themeToggleBtn" class="theme-btn" title="Cambiar tema">
+                    ☀️ <span id="themeLabel">Modo claro</span>
+                </button>
+            </div>
+
+            <div class="font-size-toggle">
+                <label for="fontSizeRange">Tamaño del texto</label>
+                <div class="font-size-row">
+                    <span class="font-size-icon">A-</span>
+                    <input type="range" id="fontSizeRange" min="14" max="20" step="1" value="16"
+                        aria-label="Ajustar tamaño de texto" />
+                    <span class="font-size-icon">A+</span>
+                </div>
+            </div>
+            <div class="lol" id="lol">
+                <p>.</p>
+            </div>
+
+        </nav>
+    </aside>
+
+    <!-- header(sticky) -->
+    <header class="app-header">
+        <a href=index.html class="logo">
+            <img src="imagenes/logo.png" alt="Logo del sitio">
+            <div class="brand">FIFAverse</div>
+        </a>
+
+        <div class="search-wrap">
+            <form class="search-box" onsubmit="return false;">
+                <input type="search" placeholder="Buscar en historia..." />
+                <button title="Buscar">🔍</button>
+            </form>
+        </div>
+
+        <div class="controls">
+            <button id="profileBtn" class="profile-btn">
+                <img id="profileAvatar" src="imagenes/avatar-dark.png" alt="Avatar" />
+                <span id="profileName" class="small">Invitado</span>
+            </button>
+            <button id="hamburger" class="hamburger">☰</button>
+        </div>
+    </header>
+
+    <!-- pop up de login / signup -->
+    <div id="authModalBackdrop" class="modal-backdrop" style="display:none;" aria-hidden="true" role="dialog"
+        aria-labelledby="loginFormTitle">
+        <div class="modal auth-modal">
+            <!-- Formulario de Login -->
+            <div id="loginForm" class="auth-form active" aria-label="Formulario de inicio de sesión">
+                <h2 id="loginFormTitle" tabindex="33">Inicia Sesión</h2>
+                <label for="loginEmail">Correo</label>
+                <input type="email" id="loginEmail" placeholder="correo@ejemplo.com" required tabindex="34">
+
+                <label for="loginPassword">Contraseña</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" required tabindex="35">
+
+                <button id="btnLoginSubmit" class="btn" tabindex="36">Entrar</button>
+
+                <p class="switch-auth">¿No tienes cuenta?
+                    <a href="#" id="showRegister" tabindex="37">Regístrate</a>
+                </p>
+            </div>
+
+            <!-- Formulario de Registro -->
+            <div id="registerForm" class="auth-form" style="display:none;"
+                aria-label="Formulario de registro de usuario">
+                <h2 tabindex="38">Crear Cuenta</h2>
+
+                <!-- Nombre completo -->
+                <label for="registerFullName">
+                    Nombre completo
+                    <span id="errorNombre" class="error-label"></span>
+                </label>
+                <input type="text" id="registerFullName" placeholder="Tu nombre completo" required>
+
+
+
+                <!-- Fecha de nacimiento -->
+                <label for="regBirthDay">
+                    Fecha de nacimiento
+                    <span id="errorFecha" class="error-label"></span>
+                </label>
+
+                <div class="birthdate-row">
+                    <!-- Día -->
+                    <select id="regBirthDay" class="birth-select">
+                        <option value="">Día</option>
+                    </select>
+
+                    <!-- Mes -->
+                    <select id="regBirthMonth" class="birth-select">
+                        <option value="">Mes</option>
+                    </select>
+
+                    <!-- Año -->
+                    <select id="regBirthYear" class="birth-select">
+                        <option value="">Año</option>
+                    </select>
+                </div>
+
+
+                <!-- Género  -->
+                <label for="regGender">Género</label>
+                <select id="regGender" tabindex="41">
+                    <option value="">Selecciona una opción</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+                </select>
+
+                <!-- País de nacimiento -->
+                <label for="regBirthCountry">País de nacimiento</label>
+                <input type="text" id="regBirthCountry" placeholder="Ej: México" required tabindex="42">
+
+                <!-- Foto -->
+                <label for="regPhoto">Foto de perfil</label>
+                <input type="file" id="regPhoto" accept="image/*" tabindex="43">
+
+                <!-- Correo -->
+                <label for="registerEmail">
+                    Correo electrónico
+                    <span id="errorEmail" class="error-label"></span>
+                </label>
+                <input type="email" id="registerEmail" placeholder="correo@ejemplo.com" required tabindex="45">
+
+
+                <!-- Contraseña -->
+                <label for="registerPassword">
+                    Contraseña
+                    <span id="errorPass" class="error-label"></span>
+                </label>
+                <input type="password" id="registerPassword" placeholder="••••••••" required tabindex="46">
+
+                <div class="password-rules">
+                    <div id="rule-length">• Mínimo 8 caracteres</div>
+                    <div id="rule-upper">• Al menos 1 mayúscula</div>
+                    <div id="rule-number">• Al menos 1 número</div>
+                    <div id="rule-special">• Al menos 1 caracter especial</div>
+                </div>
+                <small id="registerPasswordError" class="field-error"></small>
+
+                <button id="btnRegisterSubmit" class="btn" tabindex="46">Registrarme</button>
+
+                <p class="switch-auth">¿Ya tienes cuenta?
+                    <a href="#" id="showLogin" tabindex="47">Inicia sesión</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <main class="wiki">
+
+        <aside class="wiki-toc" id="toc">
+            <button class="toc-toggle" id="tocToggle">Tabla de Contenido</button>
+            <ul id="tocList">
+                <li><a href="#historia" class="active">Historia de la FIFA</a></li>
+                <li><a href="#">1930 - Uruguay</a></li>
+                <li><a href="#">1934 - Italia</a></li>
+                <li><a href="#">1938 - Francia</a></li>
+                <li><a href="#">1950 - Brasil</a></li>
+                <li><a href="#">1954 - Suiza</a></li>
+                <li><a href="#">1958 - Suecia</a></li>
+                <li><a href="#">1962 - Chile</a></li>
+                <li><a href="#">1966 - Inglaterra</a></li>
+                <li><a href="#">1970 - México</a></li>
+                <li><a href="#">1974 - Alemania</a></li>
+                <li><a href="#">1978 - Argentina</a></li>
+                <li><a href="#">1982 - España</a></li>
+                <li><a href="#">1986 - México</a></li>
+                <li><a href="#">1990 - Italia</a></li>
+                <li><a href="#">1994 - EE.UU.</a></li>
+                <li><a href="#">1998 - Francia</a></li>
+                <li><a href="#2002">2002 - Corea/Japón</a></li>
+                <li><a href="#2006">2006 - Alemania</a></li>
+                <li><a href="#2010">2010 - Sudáfrica</a></li>
+                <li><a href="#2014">2014 - Brasil</a></li>
+                <li><a href="#2018">2018 - Rusia</a></li>
+                <li><a href="#2022">2022 - Qatar</a></li>
+            </ul>
+        </aside>
+
+        <section id="historia" class="wiki-content">
+
+            <img src="imagenes/fifa-inicio.jpg" alt="Sede de la FIFA en Zúrich" class="wiki-img-right">
+
+
+            <h1>Historia de la FIFA</h1>
+
+            <p>
+                La <strong>Federación Internacional de Fútbol Asociación</strong> (en francés: <em>Fédération
+                    Internationale de Football Association</em>), más conocida por sus siglas en francés
+                <strong>FIFA</strong>, es la institución que dirige a las federaciones de fútbol a nivel global. Se
+                fundó el <strong>21 de mayo de 1904</strong> y tiene su sede en <strong>Zúrich, Suiza</strong>.
+                Forma
+                parte del <strong>IFAB</strong>, organismo encargado de modificar las reglas del juego. Además, la
+                FIFA
+                organiza la <strong>Copa Mundial de Fútbol</strong>, los campeonatos del mundo en sus distintas
+                categorías, ramas y variaciones de la disciplina, así como los Torneos Olímpicos en colaboración con
+                el
+                COI.
+            </p>
+
+            <p>
+                La FIFA agrupa <strong>211 asociaciones</strong> o federaciones de fútbol de distintos países,
+                contando
+                con más miembros que la Organización de las Naciones Unidas. Es una de las instituciones deportivas
+                más
+                grandes del mundo, superada solo por algunas federaciones internacionales de otras disciplinas.
+            </p>
+
+            <h2>Historia</h2>
+
+            <p>
+                El aumento de la popularidad y la competencia internacional en el fútbol a principios del siglo XX
+                hicieron necesario crear un único organismo regulador del deporte a nivel mundial. La Federación
+                Inglesa
+                de Fútbol sostuvo discusiones acerca de la formación de una federación internacional, pero esta
+                iniciativa no tuvo acogida. Entonces, las autoridades nacionales de fútbol de siete países europeos
+                —Bélgica, Dinamarca, España (representada por el Real Madrid Club de Fútbol), Francia, Países Bajos,
+                Suecia y Suiza— se reunieron para asociarse y, de esta manera, la FIFA fue fundada en París el 21 de
+                mayo de 1904.
+            </p>
+
+            <p>
+                Su primer presidente fue el francés <strong>Robert Guérin</strong>. Pese a que no participaron
+                inicialmente en su conformación, Inglaterra se unió al año siguiente, Escocia y Gales en 1910, e
+                Irlanda
+                del Norte en 1911.
+            </p>
+
+            <p>
+                La FIFA presidió su primer torneo internacional en 1906, pero no fue exitoso. Esta situación, sumada
+                a
+                los factores económicos, propició el reemplazo de Guérin por el inglés <strong>Daniel Burley
+                    Woolfall</strong>. El siguiente torneo internacional fue la competición olímpica de fútbol de
+                Londres 1908, que tuvo un buen resultado con la participación de jugadores profesionales.
+            </p>
+
+            <p>
+                La Federación se extendió fuera de Europa con el ingreso de <strong>Sudáfrica (1909)</strong>,
+                <strong>Argentina (1912)</strong>, <strong>Canadá y Chile (1913)</strong>, y <strong>Estados Unidos
+                    (1914)</strong>. Durante este periodo se enfrentó a la aparición de una federación rival, la
+                UIAFA,
+                que finalmente desapareció, consolidando a la FIFA como la única autoridad internacional del fútbol.
+            </p>
+
+            <p>
+                Durante la <strong>Primera Guerra Mundial</strong> la FIFA sufrió un tropiezo, ya que muchos
+                jugadores
+                fueron enviados al frente y los viajes internacionales se vieron afectados. Tras la guerra, falleció
+                Woolfall y la organización fue dirigida provisionalmente por el neerlandés <strong>Carl
+                    Hirschmann</strong>. La crisis se superó, aunque con el retiro temporal de las naciones
+                británicas.
+            </p>
+
+            <p>
+                En <strong>1921</strong>, el francés <strong>Jules Rimet</strong> asumió la presidencia y comenzó
+                una
+                etapa de expansión global. En los Juegos Olímpicos de París 1924 organizó los campeonatos de fútbol,
+                con
+                una asistencia récord de 60 000 espectadores en la final entre Uruguay y Suiza.
+            </p>
+
+            <p>
+                Estos éxitos motivaron a la FIFA para que en el <strong>Congreso de Ámsterdam de 1928</strong> se
+                estableciera su propio <strong>Campeonato Mundial</strong>. Finalmente, en el Congreso de Barcelona
+                se
+                determinó que el torneo se celebraría en Uruguay en 1930, con motivo del centenario de su
+                independencia.
+                La primera <strong>Copa del Mundo</strong> se inauguró en Montevideo el 18 de julio de 1930 con solo
+                cuatro selecciones europeas.
+            </p>
+
+            <p>
+                Después, Italia fue seleccionada para organizar la <strong>Copa Mundial de Fútbol de 1934</strong>,
+                con
+                34 asociaciones interesadas en participar, por lo que se realizaron eliminatorias por primera vez.
+                Italia ganó el torneo y repitió su título en Francia 1938, el último antes de la Segunda Guerra
+                Mundial.
+            </p>
+
+            <p>
+                Tras la guerra, en <strong>1946</strong> regresaron las cuatro regiones británicas a la Federación.
+                En
+                1947 se celebró un partido histórico entre el Reino Unido y el Resto de Europa, cuyas ganancias
+                fueron
+                donadas a la FIFA para su recuperación. En 1950 se realizó el siguiente mundial, en Brasil. Para
+                entonces, la FIFA ya contaba con 84 países miembros.
+            </p>
+
+            <p>
+                En <strong>1954</strong>, <strong>Jules Rimet</strong> fue sucedido por el belga <strong>Rodolphe
+                    William Seeldrayers</strong>, quien falleció al año siguiente, siendo reemplazado por el inglés
+                <strong>Arthur Drewry</strong>. En 1961 asumió <strong>Sir Stanley Rous</strong>, un árbitro
+                retirado
+                que impulsó el desarrollo del fútbol televisado y aficionado.
+            </p>
+
+            <p>
+                En <strong>1974</strong>, el brasileño <strong>João Havelange</strong> asumió la presidencia,
+                transformando la FIFA en una organización moderna y comercial. Amplió la participación de equipos a
+                24
+                en España 1982 y a 32 en Francia 1998, promoviendo el fútbol como una herramienta de desarrollo
+                global.
+            </p>
+
+            <p>
+                Su sucesor, el suizo <strong>Joseph Blatter</strong>, continuó con esa política y llevó el Mundial a
+                nuevos continentes: Asia (2002) y África (2010). Bajo su mandato, la FIFA modernizó su estructura,
+                celebró su centenario en 2004 y enfrentó controversias por la regulación de partidos en altitudes
+                elevadas.
+            </p>
+
+            <p>
+                En <strong>2015</strong>, varios ejecutivos fueron arrestados por casos de corrupción días antes de
+                las
+                elecciones presidenciales. Tras su reelección, Blatter renunció el 2 de junio de 2015, convocando a
+                un
+                congreso extraordinario para elegir un nuevo presidente en 2016.
+            </p>
+
+            <h2>Fundación FIFA</h2>
+
+            <p>
+                La <strong>Fundación FIFA</strong> fue creada en <strong>marzo de 2018</strong> como entidad
+                independiente, con el objetivo de promover un cambio social positivo y apoyar la reconstrucción de
+                infraestructuras deportivas dañadas alrededor del mundo.
+                La fundación cuenta con programas como el <em>Comunitario</em> y el de <em>Recuperación</em>, además
+                de
+                iniciativas enfocadas en el fútbol femenino y la educación.
+            </p>
+
+            <p>
+                La junta directiva de la fundación está compuesta por el presidente de la FIFA y al menos otros dos
+                miembros. Entre los primeros integrantes estuvieron <strong>Gianni Infantino</strong>, <strong>Sonia
+                    Fulford</strong> y <strong>Lydia Nsekera</strong>.
+            </p>
+
+            <p>
+                En <strong>enero de 2020</strong>, se anunció que el expresidente argentino <strong>Mauricio
+                    Macri</strong> asumiría el cargo de presidente ejecutivo de la Fundación FIFA, trabajo que
+                realiza
+                de forma honoraria. El exfutbolista <strong>Youri Djorkaeff</strong> actúa como director general,
+                con un
+                enfoque prioritario en la educación mediante el programa <em>Football for Schools</em>.
+            </p>
+
+            <blockquote>
+                “Es un grandísimo placer y todo un honor poder anunciar que Mauricio Macri asumirá este cargo al
+                frente
+                de la Fundación FIFA.
+                Tiene el perfil ideal para liderar este proyecto, que quiere poner el fútbol al servicio de la
+                sociedad.”
+                — Gianni Infantino, Presidente de la FIFA
+            </blockquote>
+
+    </main>
+
+    <footer>
+        <div class="footerr" id="footerr">
+            <p>
+                .
+            </p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

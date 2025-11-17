@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIFAverse</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- Menu hamburguesa -->
+  <aside id="sidebar" class="sidebar">
+    <nav class="sidebar-menu">
+      <button id="closeSidebar" class="close-btn">✕</button>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="publicaciones.html" data-title="Publicaciones">Publicaciones</a></li>
+        <li><a href="noticias.html" data-title="Noticias">Noticias Oficiales</a></li>
+        <li><a href="jugadas.html" data-title="Jugadas & Más">Jugadas</a></li>
+        <li><a href="comunidades.html" data-title="Comunidades">Comunidades</a></li>
+        <li><a href="historia.html" data-title="Historia">Historia de la FIFA</a></li>
+      </ul>
+      <div class="theme-toggle">
+        <button id="themeToggleBtn" class="theme-btn" title="Cambiar tema">
+          ☀️ <span id="themeLabel">Modo claro</span>
+        </button>
+      </div>
+      <div class="font-size-toggle">
+        <label for="fontSizeRange">Tamaño del texto</label>
+        <div class="font-size-row">
+          <span class="font-size-icon">A-</span>
+          <input type="range" id="fontSizeRange" min="14" max="20" step="1" value="16"
+            aria-label="Ajustar tamaño de texto" />
+          <span class="font-size-icon">A+</span>
+        </div>
+      </div>
+      <div class="lol" id="lol">
+        <p>.</p>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- header(sticky) -->
+  <header class="app-header" role="banner" aria-label="Encabezado principal">
+    <a href=index.html class="logo">
+      <img src="imagenes/logo.png" alt="Logo del sitio">
+      <div class="brand">FIFAverse</div>
+    </a>
+
+    <div class="search-wrap" role="search">
+      <form class="search-box" onsubmit="return false;">
+        <input type="search" placeholder="Buscar noticias..." />
+        <button title="Buscar">🔍</button>
+      </form>
+    </div>
+
+    <div class="controls">
+      <button id="profileBtn" class="profile-btn">
+        <img id="profileAvatar" src="imagenes/avatar-dark.png" alt="Avatar" />
+        <span id="profileName" class="small">Invitado</span>
+      </button>
+      <button id="hamburger" class="hamburger" aria-label="Abrir menú">☰</button>
+    </div>
+  </header>
+
+  <!-- pop up de login / signup -->
+  <div id="authModalBackdrop" class="modal-backdrop" style="display:none;" aria-hidden="true" role="dialog"
+    aria-labelledby="loginFormTitle">
+    <div class="modal auth-modal">
+      <!-- Formulario de Login -->
+      <div id="loginForm" class="auth-form active" aria-label="Formulario de inicio de sesión">
+        <h2 id="loginFormTitle" tabindex="33">Inicia Sesión</h2>
+        <label for="loginEmail">Correo</label>
+        <input type="email" id="loginEmail" placeholder="correo@ejemplo.com" required tabindex="34">
+
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required tabindex="35">
+
+        <button id="btnLoginSubmit" class="btn" tabindex="36">Entrar</button>
+
+        <p class="switch-auth">¿No tienes cuenta?
+          <a href="#" id="showRegister" tabindex="37">Regístrate</a>
+        </p>
+      </div>
+
+      <!-- Formulario de Registro -->
+      <div id="registerForm" class="auth-form" style="display:none;" aria-label="Formulario de registro de usuario">
+        <h2 tabindex="38">Crear Cuenta</h2>
+
+        <!-- Nombre completo -->
+        <label for="registerFullName">
+          Nombre completo
+          <span id="errorNombre" class="error-label"></span>
+        </label>
+        <input type="text" id="registerFullName" placeholder="Tu nombre completo" required>
+
+
+
+        <!-- Fecha de nacimiento -->
+        <label for="regBirthDay">
+          Fecha de nacimiento
+          <span id="errorFecha" class="error-label"></span>
+        </label>
+
+        <div class="birthdate-row">
+          <!-- Día -->
+          <select id="regBirthDay" class="birth-select">
+            <option value="">Día</option>
+          </select>
+
+          <!-- Mes -->
+          <select id="regBirthMonth" class="birth-select">
+            <option value="">Mes</option>
+          </select>
+
+          <!-- Año -->
+          <select id="regBirthYear" class="birth-select">
+            <option value="">Año</option>
+          </select>
+        </div>
+
+
+        <!-- Género  -->
+        <label for="regGender">Género</label>
+        <select id="regGender" tabindex="41">
+          <option value="">Selecciona una opción</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+        </select>
+
+        <!-- País de nacimiento -->
+        <label for="regBirthCountry">País de nacimiento</label>
+        <input type="text" id="regBirthCountry" placeholder="Ej: México" required tabindex="42">
+
+        <!-- Foto -->
+        <label for="regPhoto">Foto de perfil</label>
+        <input type="file" id="regPhoto" accept="image/*" tabindex="43">
+
+        <!-- Correo -->
+        <label for="registerEmail">
+          Correo electrónico
+          <span id="errorEmail" class="error-label"></span>
+        </label>
+        <input type="email" id="registerEmail" placeholder="correo@ejemplo.com" required tabindex="45">
+
+
+        <!-- Contraseña -->
+        <label for="registerPassword">
+          Contraseña
+          <span id="errorPass" class="error-label"></span>
+        </label>
+        <input type="password" id="registerPassword" placeholder="••••••••" required tabindex="46">
+
+        <div class="password-rules">
+          <div id="rule-length">• Mínimo 8 caracteres</div>
+          <div id="rule-upper">• Al menos 1 mayúscula</div>
+          <div id="rule-number">• Al menos 1 número</div>
+          <div id="rule-special">• Al menos 1 caracter especial</div>
+        </div>
+        <small id="registerPasswordError" class="field-error"></small>
+
+        <button id="btnRegisterSubmit" class="btn" tabindex="46">Registrarme</button>
+
+        <p class="switch-auth">¿Ya tienes cuenta?
+          <a href="#" id="showLogin" tabindex="47">Inicia sesión</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <main id="main" role="main">
+    <section class="toolbar" aria-label="Barra de herramientas">
+      <div class="filters">
+        <select id="filterCategory" aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
+          <option>Jugadas</option>
+          <option>Entrevistas</option>
+          <option>Partidos</option>
+          <option>Estadísticas</option>
+          <option>Asistentes</option>
+          <option>Incidentes</option>
+          <option>Polémicas</option>
+          <option>Sedes</option>
+          <option>Cultura</option>
+        </select>
+
+        <select id="filterYear" aria-label="Filtrar por año de mundial">
+          <option value="">Todos los años</option>
+          <option>2018</option>
+          <option>2014</option>
+          <option>2010</option>
+          <option>2006</option>
+          <option>2002</option>
+          <option>1998</option>
+        </select>
+
+        <input type="text" id="filterCountry" placeholder="País sede (ej. México)" aria-label="Filtrar por país sede">
+      </div>
+
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button id="btnNewPost" class="btn" aria-haspopup="dialog">Nueva publicación</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <a href="detalle.html">
+          <div class="meta">
+            <strong>Maradona — La Mano de Dios (1986)</strong>
+            <div class="small">Jugadas • 1986 • Argentina</div>
+          </div>
+          <img src="imagenes/maradona.jpg" alt="Maradona" class="media">
+          <p>Resumen y contexto histórico.</p>
+        </a>
+        <div class="actions">
+          <div class="stat">❤️ 512</div>
+          <div class="stat">👁️ 10,240</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a href="detalle.html">
+          <div class="meta">
+            <strong>Final 2018 — Resumen</strong>
+            <div class="small">Partidos • 2018 • Rusia</div>
+          </div>
+          <img src="imagenes/rusia2018.jpg" alt="Final 2018" class="media">
+          <p>Videos de las jugadas y entrevistas post partido.</p>
+        </a>
+        <div class="actions">
+          <div class="stat">❤️ 12</div>
+          <div class="stat">👁️ 523</div>
+        </div>
+      </article>
+    </section>
+
+  </main>
+
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <h2>Crear publicación</h2>
+
+      <form id="postForm">
+        <!-- Título -->
+        <div>
+          <label for="postTitle">Título</label>
+          <input type="text" id="postTitle" placeholder="Ej: Gol inolvidable de 1986">
+        </div>
+
+        <!-- Año del mundial -->
+        <div>
+          <label>Año del mundial</label>
+
+          <div class="custom-select" data-type="postYear">
+            <div class="custom-select-trigger">
+              <span>Seleccionar</span>
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z" />
+              </svg>
+            </div>
+            <div class="custom-options"></div>
+          </div>
+        </div>
+
+        <!-- Categoría -->
+        <div>
+          <label>Categoría</label>
+
+          <div class="custom-select" data-type="postCategory">
+            <div class="custom-select-trigger">
+              <span>Seleccionar</span>
+              <svg viewBox="0 0 24 24">
+                <path d="M7 10l5 5 5-5z" />
+              </svg>
+            </div>
+            <div class="custom-options"></div>
+          </div>
+        </div>
+
+
+        <!-- País -->
+        <div>
+          <label for="postCountry">País / Selección (opcional)</label>
+          <input type="text" id="postCountry" placeholder="Ej: Argentina">
+        </div>
+
+        <!-- Descripción -->
+        <div>
+          <label for="postDesc">Descripción</label>
+          <textarea id="postDesc" placeholder="Agrega contexto, enlaces, etc."></textarea>
+        </div>
+
+        <!-- Imagen o video -->
+        <div>
+          <label for="postMedia">Imagen / Video (obligatorio)</label>
+          <input type="file" id="postMedia" accept="image/*,video/*">
+        </div>
+
+        <!-- Botones -->
+        <div class="modal-actions">
+          <button type="button" class="btn-cancelar" id="btnCancelModal">Cancelar</button>
+          <button type="submit" class="btn-publicar">Publicar (pendiente aprobación)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer>
+    <div class="footerr" id="footerr">
+      <p>
+        .
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>

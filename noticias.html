@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIFAverse - Noticias Oficiales</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <!-- Menu hamburguesa -->
+  <aside id="sidebar" class="sidebar">
+    <nav class="sidebar-menu">
+      <button id="closeSidebar" class="close-btn">✕</button>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="publicaciones.html" data-title="Publicaciones">Publicaciones</a></li>
+        <li><a href="noticias.html" data-title="Noticias">Noticias Oficiales</a></li>
+        <li><a href="jugadas.html" data-title="Jugadas & Más">Jugadas</a></li>
+        <li><a href="comunidades.html" data-title="Comunidades">Comunidades</a></li>
+        <li><a href="historia.html" data-title="Historia">Historia de la FIFA</a></li>
+      </ul>
+      <div class="theme-toggle">
+        <button id="themeToggleBtn" class="theme-btn" title="Cambiar tema">
+          ☀️ <span id="themeLabel">Modo claro</span>
+        </button>
+      </div>
+
+      <div class="font-size-toggle">
+        <label for="fontSizeRange">Tamaño del texto</label>
+        <div class="font-size-row">
+          <span class="font-size-icon">A-</span>
+          <input type="range" id="fontSizeRange" min="14" max="20" step="1" value="16"
+            aria-label="Ajustar tamaño de texto" />
+          <span class="font-size-icon">A+</span>
+        </div>
+      </div>
+      <div class="lol" id="lol">
+        <p>.</p>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- header(sticky) -->
+  <header class="app-header" role="banner" aria-label="Encabezado principal">
+    <a href=index.html class="logo">
+      <img src="imagenes/logo.png" alt="Logo del sitio">
+      <div class="brand">FIFAverse</div>
+    </a>
+
+    <div class="search-wrap" role="search">
+      <form class="search-box" onsubmit="return false;">
+        <input type="search" placeholder="Buscar noticias..." />
+        <button title="Buscar">🔍</button>
+      </form>
+    </div>
+
+    <div class="controls">
+      <button id="profileBtn" class="profile-btn">
+        <img id="profileAvatar" src="imagenes/avatar-dark.png" alt="Avatar" />
+        <span id="profileName" class="small">Invitado</span>
+      </button>
+      <button id="hamburger" class="hamburger" aria-label="Abrir menú">☰</button>
+    </div>
+  </header>
+
+  <!-- pop up de login / signup -->
+  <div id="authModalBackdrop" class="modal-backdrop" style="display:none;" aria-hidden="true" role="dialog"
+    aria-labelledby="loginFormTitle">
+    <div class="modal auth-modal">
+      <!-- Formulario de Login -->
+      <div id="loginForm" class="auth-form active" aria-label="Formulario de inicio de sesión">
+        <h2 id="loginFormTitle" tabindex="33">Inicia Sesión</h2>
+        <label for="loginEmail">Correo</label>
+        <input type="email" id="loginEmail" placeholder="correo@ejemplo.com" required tabindex="34">
+
+        <label for="loginPassword">Contraseña</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" required tabindex="35">
+
+        <button id="btnLoginSubmit" class="btn" tabindex="36">Entrar</button>
+
+        <p class="switch-auth">¿No tienes cuenta?
+          <a href="#" id="showRegister" tabindex="37">Regístrate</a>
+        </p>
+      </div>
+
+      <!-- Formulario de Registro -->
+      <div id="registerForm" class="auth-form" style="display:none;" aria-label="Formulario de registro de usuario">
+        <h2 tabindex="38">Crear Cuenta</h2>
+
+        <!-- Nombre completo -->
+        <label for="registerFullName">
+          Nombre completo
+          <span id="errorNombre" class="error-label"></span>
+        </label>
+        <input type="text" id="registerFullName" placeholder="Tu nombre completo" required>
+
+        <!-- Fecha de nacimiento -->
+        <label for="regBirthDay">
+          Fecha de nacimiento
+          <span id="errorFecha" class="error-label"></span>
+        </label>
+
+        <div class="birthdate-row">
+          <!-- Día -->
+          <select id="regBirthDay" class="birth-select">
+            <option value="">Día</option>
+          </select>
+
+          <!-- Mes -->
+          <select id="regBirthMonth" class="birth-select">
+            <option value="">Mes</option>
+          </select>
+
+          <!-- Año -->
+          <select id="regBirthYear" class="birth-select">
+            <option value="">Año</option>
+          </select>
+        </div>
+
+
+        <!-- Género  -->
+        <label for="regGender">Género</label>
+        <select id="regGender" tabindex="41">
+          <option value="">Selecciona una opción</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+        </select>
+
+        <!-- País de nacimiento -->
+        <label for="regBirthCountry">País de nacimiento</label>
+        <input type="text" id="regBirthCountry" placeholder="Ej: México" required tabindex="42">
+
+        <!-- Foto -->
+        <label for="regPhoto">Foto de perfil</label>
+        <input type="file" id="regPhoto" accept="image/*" tabindex="43">
+
+        <!-- Correo -->
+        <label for="registerEmail">
+          Correo electrónico
+          <span id="errorEmail" class="error-label"></span>
+        </label>
+        <input type="email" id="registerEmail" placeholder="correo@ejemplo.com" required tabindex="45">
+
+
+        <!-- Contraseña -->
+        <label for="registerPassword">
+          Contraseña
+          <span id="errorPass" class="error-label"></span>
+        </label>
+        <input type="password" id="registerPassword" placeholder="••••••••" required tabindex="46">
+
+        <div class="password-rules">
+          <div id="rule-length">• Mínimo 8 caracteres</div>
+          <div id="rule-upper">• Al menos 1 mayúscula</div>
+          <div id="rule-number">• Al menos 1 número</div>
+          <div id="rule-special">• Al menos 1 caracter especial</div>
+        </div>
+        <small id="registerPasswordError" class="field-error"></small>
+
+        <button id="btnRegisterSubmit" class="btn" tabindex="46">Registrarme</button>
+
+        <p class="switch-auth">¿Ya tienes cuenta?
+          <a href="#" id="showLogin" tabindex="47">Inicia sesión</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- noticias placeholder -->
+  <main>
+    <h1 class="section-title">Noticias Oficiales</h1>
+
+    <section class="grid">
+      <article class="card">
+        <img class="media" src="imagenes/noticia1.webp" alt="Presentación del balón oficial 2026">
+        <div class="meta">
+          <div>
+            <strong class="title">Presentado el balón oficial del Mundial 2026</strong>
+            <div class="small">FIFA • 18 octubre 2025</div>
+          </div>
+        </div>
+        <div class="small">
+          La FIFA reveló el nuevo balón oficial para el Mundial 2026, con un diseño inspirado en la unión de las tres
+          sedes: México, EE.UU. y Canadá.
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="media" src="imagenes/noticia2.jpeg" alt="Calendario del Mundial 2026">
+        <div class="meta">
+          <div>
+            <strong class="title">Se confirma el calendario de partidos</strong>
+            <div class="small">FIFA • 12 octubre 2025</div>
+          </div>
+        </div>
+        <div class="small">
+          La FIFA anunció las fechas oficiales y ciudades anfitrionas del Mundial 2026, incluyendo el partido
+          inaugural en el Estadio Azteca.
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="media" src="imagenes/noticia3.avif" alt="Donald Trump">
+        <div class="meta">
+          <div>
+            <strong class="title">FIFA responde ante las amenazas de Donald Trump de quitar a Boston como
+              sede</strong>
+            <div class="small">El Universal • 17 octubre 2025</div>
+          </div>
+        </div>
+        <div class="small">
+          Por temas de seguridad, el presidente de Estados Unidos analizaba la posibilidad de quitar a Boston como
+          sede.
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="media" src="imagenes/noticia4.webp" alt="Equipo de la Selección Mexicana">
+        <div class="meta">
+          <div>
+            <strong class="title">La inesperada petición de la Selección Mexicana a la FIFA para el Mundial 2026 tras
+              filtrarse ‘horrible’ jersey</strong>
+            <div class="small">El Norte • 1 octubre 2025</div>
+          </div>
+        </div>
+        <div class="small">
+          Luego de que en redes se revelara el supuesto jersey que utilizará la Selección Mexicana en el Mundial 2026,
+          el Tri lanza una petición.
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="media" src="imagenes/noticia5.jpg" alt="Sedes Mundial Femenino 2027">
+        <div class="meta">
+          <div>
+            <strong class="title">Anunciadas las sedes del Mundial Femenino 2027</strong>
+            <div class="small">FIFA • 25 septiembre 2025</div>
+          </div>
+        </div>
+        <div class="small">
+          La FIFA confirmó las ciudades anfitrionas del próximo Mundial Femenino, destacando un récord de
+          participación de 36 selecciones.
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footerr" id="footerr">
+      <p>
+        .
+      </p>
+    </div>
+  </footer>
+</body>
+
+</html>
